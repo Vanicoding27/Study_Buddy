@@ -1,2 +1,2 @@
 # Study_Buddy
-Study schedule generator powered by AI
+Study schedule generator powered by AI.
