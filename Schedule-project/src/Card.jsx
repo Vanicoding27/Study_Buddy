@@ -4,7 +4,7 @@ function Card() {
   return (
     <div className="flex flex-row justify-center gap-6 mt-6">
       {/* Card 1 */}
-      <div className="bg-stone-900 p-6 rounded-xl shadow-lg w-64 text-center hover:bg-stone-800 transition">
+      <div className="bg-stone-900 p-6 rounded-xl shadow-lg w-62 text-center hover:bg-stone-800 transition">
         <div className="flex justify-center mb-4">
           <span className="text-blue-400 text-2xl">⏱️</span>
         </div>
@@ -15,7 +15,7 @@ function Card() {
       </div>
 
       {/* Card 2 */}
-      <div className="bg-stone-900 p-6 rounded-xl shadow-lg w-64 text-center hover:bg-stone-800 transition">
+      <div className="bg-stone-900 p-6 rounded-xl shadow-lg w-62 text-center hover:bg-stone-800 transition">
         <div className="flex justify-center mb-4">
           <span className="text-blue-400 text-2xl">⭐</span>
         </div>
@@ -26,7 +26,7 @@ function Card() {
       </div>
 
       {/* Card 3 */}
-      <div className="bg-stone-900 p-6 rounded-xl shadow-lg w-64 text-center hover:bg-stone-800 transition">
+      <div className="bg-stone-900 p-6 rounded-xl shadow-lg w-62 text-center hover:bg-stone-800 transition">
         <div className="flex justify-center mb-4">
           <span className="text-blue-400 text-2xl">📅</span>
         </div>
