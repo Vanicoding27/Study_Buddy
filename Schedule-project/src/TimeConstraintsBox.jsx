@@ -2,7 +2,7 @@ import React from 'react'
 
 function TimeConstraintsBox() {
     return (
-        <div className='m-4 p-2'>
+        <div className='m-4 p-2 bg-stone-900'>
             <h2 className='p-2'>⏱️ Time Constraints</h2>
             <h3 className='p-2'>Set your daily schedule boundaries</h3>
             <div className='flex flex-row gap-4'>
