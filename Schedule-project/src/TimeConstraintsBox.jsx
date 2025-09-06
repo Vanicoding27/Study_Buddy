@@ -2,13 +2,13 @@ import React from 'react'
 
 function TimeConstraintsBox() {
     return (
-        <div className='m-4 p-2 bg-stone-900'>
-            <h2 className='p-2'>⏱️ Time Constraints</h2>
-            <h3 className='p-2'>Set your daily schedule boundaries</h3>
-            <div className='flex flex-row gap-4'>
-                <div>
+        <div className='m-4 p-1 rounded-2xl bg-stone-950'>
+            <h2 className='p-1 text-white'>⏱️ Time Constraints</h2>
+            <h3 className='p-1 text-gray-400'>Set your daily schedule boundaries</h3>
+            <div className='flex flex-row gap-4 p-1 text-gray-400'>
+                <div className=''>
                     <h3>Total available Hours</h3>
-                    <input placeholder='select'className='p-2' ></input>
+                    <input placeholder='select'className='p-1' ></input>
                 </div>
                 <div>
                     <h3>Wake-up Time</h3>
