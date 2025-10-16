@@ -2,9 +2,36 @@ import Card from './Card.jsx'
 import Button from './Button.jsx'
 import TimeConstraintsBox from './TimeConstraintsBox.jsx'
 import AddTask from './AddTask.jsx'
+import { useState } from 'react'
 import './index.css'
 
 function App() {
+  const [responseText, setResponseText] = useState("");
+
+  const handleClick = async () => {
+    const API_KEY = "YOUR_GEMINI_API_KEY";
+    setResponseText("Thinking...");
+
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: "Explain what is an API in simple terms." }] }],
+          }),
+        }
+      );
+
+      const data = await res.json();
+      const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response found.";
+      setResponseText(answer);
+    } catch (err) {
+      setResponseText("Error: " + err.message);
+    }
+  };
+
 
   return (
     <>
@@ -15,7 +42,11 @@ function App() {
         <h3 className='flex font-medium text-stone-900'>Input your tasks, constraints and priorities to generate</h3>
         <h3 className='flex font-medium text-stone-900'>the perfect daily plan</h3>
         <Card />
-        <Button placeholder='Generate' />
+        <div className="p-6">
+          <Button placeholder="Generate" Click={handleClick} />
+          <p id="response" className="mt-4">{responseText}</p>
+        </div>
+        {/* <Button placeholder='Generate' Click="handleClick()"/> */}
       </div>
       {/* Page-2 */}
       <div className='h-[100vh]'>
@@ -58,7 +89,7 @@ function App() {
           </div>
         </div>
 
-        <div className='flex flex-col text-white bg-stone-950 h-[40vh] m-4 rounded-2xl place-items-center justify-center'>
+        <div id='response' className='flex flex-col text-white bg-stone-950 h-[40vh] m-4 rounded-2xl place-items-center justify-center'>
 
         </div>
       </div>
