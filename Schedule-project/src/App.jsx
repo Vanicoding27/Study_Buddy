@@ -4,33 +4,31 @@ import { useState } from 'react'
 import TimeConstraintsBox from './TimeConstraintsBox.jsx'
 import AddTask from './AddTask.jsx'
 import './index.css'
+import { URL } from './Constant.js'
 
 function App() {
   const [responseText, setResponseText] = useState("");
+  const [result, setResult] = useState("");
+  const payload = {
+    "contents": [
+      {
+        "parts": [
+          { "text": responseText }
+        ]
+      }
+    ]
+  };
 
   const handleClick = async () => {
-    const API_KEY = "YOUR_GEMINI_API_KEY";
-    setResponseText("Thinking...");
+    let response = await fetch(URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    })
+    response = await response.json();
+    setResult(response.candidates[0].content.parts[0].text)
+  }
 
-    try {
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
-        {
-          method: "POST",
-          headers:{ "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: "Explain what is an API in simple terms." }] }],
-          }),
-        }
-      );
 
-      const data = await res.json();
-      const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response found.";
-      setResponseText(answer);
-    } catch (err) {
-      setResponseText("Error: " + err.message);
-    }
-  };
 
 
 
@@ -42,10 +40,15 @@ function App() {
         <h3 className='flex font-medium text-stone-900'>Create optimized schedule with academic precision</h3>
         <h3 className='flex font-medium text-stone-900'>Input your tasks, constraints and priorities to generate</h3>
         <h3 className='flex font-medium text-stone-900'>the perfect daily plan</h3>
-        <Card />
+        <div className='flex flex-row gap-4'>
+          <Card sign='⏱️' heading='Time Optimization' subheading='Intelligent scheduling based on your available time slots' />
+          <Card sign='⭐' heading='Priority-Based' subheading='Tasks organized by importance and urgency levels' />
+          <Card sign='📅' heading='Export Ready' subheading='Download your schedule as PDF for easy reference' />
+        </div>
         <div className="p-6">
+          <input className="bg-amber-50 w-2xl h-5 " placeholder="type...." type='text' value={responseText} onChange={(event) => setResponseText(event.target.value)} />
           <Button placeholder="Generate" Click={handleClick} />
-          <p id="response" className="mt-4">{responseText}</p>
+          <p id="response" className="mt-4">{result}</p>
         </div>
       </div>
       {/* Page-2 */}
