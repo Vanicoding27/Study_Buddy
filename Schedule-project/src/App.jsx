@@ -7,17 +7,19 @@ import './index.css'
 import { URL } from './Constant.js'
 
 function App() {
-  const [responseText, setResponseText] = useState("");
   const [result, setResult] = useState("");
-  const payload = {
+  const payload ={
     "contents": [
       {
+        "role": "user",
         "parts": [
-          { "text": responseText }
+          {
+            "text": "You are an expert productivity planner and front-end UI designer. Generate a fully coded React component that produces an AI-optimized daily schedule between 2 PM and 11 PM.\n\n### INPUT DETAILS:\nTasks: Study, Mock Test, Revision, Coding, Assignment.\nPriority Task: Mock Test (must be between 6 PM and 9 PM — focused hours).\nInclude breaks for lunch, dinner, and a short walk.\nUse smart time management methods like Pomodoro, energy-based task placement, and time blocking.\n\n### OUTPUT REQUIREMENTS:\n1. Generate a **React functional component** named `ProductiveSchedule`.\n2. The component should:\n   - Display a **styled schedule table** with columns: Time Slot, Task, Focus Level (Low / Medium / High), and Notes.\n   - Include a **Task Completion Checklist** with checkboxes `[ ]` next to each task.\n   - Display a live **Efficiency Score** (percentage of tasks marked completed).\n   - Include a **Productivity Tips** section with 3 short actionable insights.\n   - Show a **Professional UI Color Palette** (3–5 hex colors) in small colored boxes with labels: Background, Text, Accent, Button, Highlight.\n\n3. The UI must be **minimal, modern, and professional** — use a calm and productivity-focused palette. The layout should be centered, responsive, and visually balanced.\n4. Use **Tailwind CSS classes** for styling (assume Tailwind is already configured).\n5. Include clear comments in the code explaining each part.\n6. Ensure all JSX syntax and React hooks (if used) are correct and production-ready.\n\n### FORMAT:\nReturn only the complete React component code block (no explanation, no extra text) enclosed in triple backticks with the language tag ```jsx```."
+          }
         ]
       }
     ]
-  };
+  }
 
   const handleClick = async () => {
     let response = await fetch(URL, {
@@ -46,7 +48,7 @@ function App() {
           <Card sign='📅' heading='Export Ready' subheading='Download your schedule as PDF for easy reference' />
         </div>
         <div className="p-6">
-          <input className="bg-amber-50 w-2xl h-5 " placeholder="type...." type='text' value={responseText} onChange={(event) => setResponseText(event.target.value)} />
+          {/* <input className="bg-amber-50 w-2xl h-5 " placeholder="type...." type='text' onChange={(event) => setResponseText(event.target.value)} /> */}
           <Button placeholder="Generate" Click={handleClick} />
           <p id="response" className="mt-4">{result}</p>
         </div>
