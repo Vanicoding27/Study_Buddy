@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function TimeConstraintsBox() {
-  const [totalHours, setTotalHours] = useState('');
-  const [wakeUpTime, setWakeUpTime] = useState('');
-  const [sleepTime, setSleepTime] = useState('');
-  const [taskInput, setTaskInput] = useState('');
-  const [tasks, setTasks] = useState([]);
+function TimeConstraintsBox({ userInputs, updateUserInputs }) {
+  const { startTime, sleepTime, tasks = [] } = userInputs;
+
+  const [taskInput, setTaskInput] = React.useState('');
 
   const handleAddTask = () => {
     if (taskInput.trim()) {
-      setTasks([...tasks, taskInput.trim()]);
+      updateUserInputs({
+        tasks: [...tasks, taskInput.trim()]
+      });
       setTaskInput('');
     }
   };
 
   const removeTask = (indexToRemove) => {
-    setTasks(tasks.filter((_, i) => i !== indexToRemove));
+    updateUserInputs({
+      tasks: tasks.filter((_, i) => i !== indexToRemove)
+    });
   };
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 bg-stone-900 rounded-2xl shadow-2xl border border-stone-800">
-      {/* Header */}
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-white flex items-center gap-3">
           Time Constraints
@@ -30,60 +31,56 @@ function TimeConstraintsBox() {
         </p>
       </div>
 
-      {/* Time Settings Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {/* Total Available Hours */}
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            Total Available Hours
-          </label>
-          <input
-            type="number"
-            min="1"
-            max="16"
-            placeholder="e.g. 10"
-            value={totalHours}
-            onChange={(e) => setTotalHours(e.target.value)}
-            className="w-full px-4 py-3 bg-stone-800 border border-stone-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
-          />
-        </div>
-
-        {/* Wake-up Time */}
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Wake-up Time
+            (Start of productive day)
           </label>
           <select
-            value={wakeUpTime}
-            onChange={(e) => setWakeUpTime(e.target.value)}
+            value={startTime}
+            onChange={(e) => updateUserInputs({ startTime: e.target.value })}
             className="w-full px-4 py-3 bg-stone-800 border border-stone-700 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
           >
-            <option value="">Select time</option>
-            {['05:00', '06:00', '07:00', '08:00', '09:00', '10:00'].map(time => (
-              <option key={time} value={time}>{time} AM</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Sleeping Time */}
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Sleep Time
-          </label>
-          <select
-            value={sleepTime}
-            onChange={(e) => setSleepTime(e.target.value)}
-            className="w-full px-4 py-3 bg-stone-800 border border-stone-700 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
-          >
-            <option value="">Select time</option>
-            {['10:00 PM', '11:00 PM', '12:00 AM', '01:00 AM'].map(time => (
+            <option value="">Select start time</option>
+            {['05:00 AM', '06:00 AM', '07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM'].map(time => (
               <option key={time} value={time}>{time}</option>
             ))}
           </select>
         </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Sleep Time (End of productive day)
+          </label>
+          <select
+            value={sleepTime}
+            onChange={(e) => updateUserInputs({ sleepTime: e.target.value })}
+            className="w-full px-4 py-3 bg-stone-800 border border-stone-700 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
+          >
+            <option value="">Select sleep time</option>
+            {['09:00 PM', '10:00 PM', '11:00 PM', '12:00 AM', '01:00 AM', '02:00 AM'].map(time => (
+              <option key={time} value={time}>{time}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Total Available Hours (Optional)
+          </label>
+          <input
+            type="number"
+            min="4"
+            max="16"
+            placeholder="e.g. 9"
+            value={userInputs.totalHours || ''}
+            onChange={(e) => updateUserInputs({ totalHours: e.target.value })}
+            className="w-full px-4 py-3 bg-stone-800 border border-stone-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
+          />
+        </div>
       </div>
 
-      {/* Add Tasks Section */}
+      {/* Tasks Section */}
       <div className="mt-8">
         <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
           Tasks & Priorities
